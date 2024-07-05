@@ -2,7 +2,7 @@ import uvicorn
 import os
 # import json
 from dotenv import load_dotenv
-from fastapi import FastAPI, Request, HTTPException, status, Query
+from fastapi import FastAPI, Request, HTTPException, status
 import httpx
 
 load_dotenv()
@@ -45,13 +45,13 @@ async def get_temperature(city: str):
 
 
 @app.get("/", status_code=status.HTTP_200_OK)
-async def get_info(request: Request, name: str = Query(..., description="your name")):
+async def get_info(request: Request):
     client_ip = request.client.host
     location = await get_location_from_ip(client_ip)
     # print(json.dumps(location, indent=2))
     city = location.get("city")
     temperature = await get_temperature(city)
-    greeting = f"Hello, {name}!, the temperature is {
+    greeting = f"Hello, Mark!, the temperature is {
         temperature} degrees Celcius in {city}"
 
     response = {
