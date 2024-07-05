@@ -1,3 +1,15 @@
 {
-    "buildCommand": "next build"
-  }
+    "builds": [
+        {
+            "src": "app/main.py",
+            "dest": "@vercel/python"   
+        }
+    ],
+
+    "routes":[
+        {
+            "src": "/(.*)",
+            "dest": "app/main.py"
+        }
+    ]
+}
