@@ -1,4 +1,3 @@
-import uvicorn
 import os
 # import json
 from dotenv import load_dotenv
@@ -44,14 +43,14 @@ async def get_temperature(city: str):
 # greeting = "Hello, Mark!, the temperature is 11 degrees Celcius in New York"
 
 
-@app.get("/", status_code=status.HTTP_200_OK)
-async def get_info(request: Request):
+@app.get("/api/hello", status_code=status.HTTP_200_OK)
+async def get_info(request: Request, visitor_name: str = "Mark"):
     client_ip = request.client.host
     location = await get_location_from_ip(client_ip)
     # print(json.dumps(location, indent=2))
     city = location.get("city")
     temperature = await get_temperature(city)
-    greeting = f"Hello, Mark!, the temperature is {
+    greeting = f"Hello, {visitor_name}!, the temperature is {
         temperature} degrees Celcius in {city}"
 
     response = {
@@ -61,6 +60,3 @@ async def get_info(request: Request):
     }
 
     return response
-
-if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
